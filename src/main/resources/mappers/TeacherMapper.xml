@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjde1033.bqgnmgt.dao.TeacherDao">
+    
+    <resultMap id="teacher" type="TeacherVo">
+        <id column="teacher_id" property="teacherId"/>
+        <result column="teacher_score" property="score"/>
+        <result column="teacher_eval" property="eval"/>
+        <result column="user_name" property="userName"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+    
+    <select id="queryTeachers" resultMap="teacher">
+        select * from teacher t join `user` u on t.teacher_id=u.user_id where `status`=1
+        and (u.user_name like CONCAT('%',#{query},'%') or t.`comment` like CONCAT('%',#{query},'%') or t.description like CONCAT('%',#{query},'%'))
+        limit #{index},#{size};
+    </select>
+
+    <select id="queryTeacherCount" resultType="int">
+        select count(*) from teacher t join `user` u on t.teacher_id=u.user_id where `status`=1
+        and (u.user_name like CONCAT('%',#{query},'%') or t.`comment` like CONCAT('%',#{query},'%') or t.description like CONCAT('%',#{query},'%'))
+    </select>
+
+    <update id="updTeacher" >
+        update teacher set comment=#{comment} where teacher_id=#{teacherId};
+    </update>
+
+    <delete id="delTeacher">
+        delete from teacher where teacher_id=#{tid};
+    </delete>
+
+</mapper>

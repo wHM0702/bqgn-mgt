@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjde1033.bqgnmgt.dao.UserDao">
+
+
+    <resultMap id="user" type="User">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+    <resultMap type="Menu" id="menu">
+        <id property="menuId" column="menu_id"/>
+        <result property="subId" column="sub_id"/>
+        <result property="iconPath" column="icon_path"/>
+    </resultMap>
+
+    <select id="getAllUser" resultMap="user">
+        select * from user
+    </select>
+
+    <select id="getUser" resultMap="user">
+        select * from  user where phone=#{phone} and password=#{pwd}
+    </select>
+
+    <select id="getUserPhone" resultMap="user">
+        select * from  user where phone=#{phone}
+    </select>
+
+    <update id="updTeacherInfo">
+        update teacher
+        <set>
+            <if test="comment!='' and comment!=null">
+                `comment`=#{comment},
+            </if>
+            <if test="desc!='' and desc!=null">
+                `description`=#{desc}
+            </if>
+        </set>
+        where teacher_id=#{tid}
+    </update>
+
+    <insert id="addUser" parameterType="User">
+        insert into user(user_id,user_name,age,gender,`type`,password) values (#{userId},#{userName},#{age},#{gender},#{type},#{password})
+    </insert>
+
+    <insert id="addTeacher">
+        insert into teacher(teacher_id,comment,description) values (#{tid},#{comment},#{desc})
+    </insert>
+
+    <insert id="addMaster">
+         insert into master(master_id,comment,description) values (#{tid},#{comment},#{desc})
+    </insert>
+
+    <select id="getFirstLevelMenusByType" resultMap="menu">
+        select * from mid_user_menu m JOIN menus e ON m.menu_id=e.menu_id where m.user_type=#{type} and `level`=1
+    </select>
+
+    <select id="getSecondLevelMenuBySubIdAndUserType" resultMap="menu">
+        select * from mid_user_menu m JOIN menus e ON m.menu_id=e.menu_id where m.user_type=#{type} and `level`=2 and sub_id=#{subId}
+    </select>
+    
+    <update id="updUser">
+        update `user` set user_name=#{userName},phone = #{phone},age=#{age},gender=#{gender} where user_id=#{teacherId};
+    </update>
+
+    <delete id="delUser">
+        delete from `user` where user_id=#{tid};
+    </delete>
+</mapper>

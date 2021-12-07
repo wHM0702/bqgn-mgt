@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjde1033.bqgnmgt.dao.MasterDao">
+
+    <resultMap id="master" type="MasterVo">
+        <id column="master_id" property="masterId"/>
+        <result column="master_score" property="score"/>
+        <result column="master_eval" property="eval"/>
+        <result column="user_name" property="userName"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_time" property="updatedTime"/>
+    </resultMap>
+
+    <select id="queryMasters" resultMap="master">
+         SELECT * FROM `master` m JOIN `user` u ON m.master_id=u.user_id WHERE `status`=1
+         and (u.user_name like CONCAT('%',#{query},'%') or m.`comment` like CONCAT('%',#{query},'%') or m.description like CONCAT('%',#{query},'%'))
+         limit #{index},#{size};
+    </select>
+
+    <select id="queryMastersOut" resultMap="master">
+         SELECT * FROM `master` m JOIN `user` u ON m.master_id=u.user_id WHERE `status`=0;
+    </select>
+
+    <select id="queryMastersOutCount" resultType="int">
+         SELECT count(*) FROM `master` m JOIN `user` u ON m.master_id=u.user_id WHERE `status`=0
+         and (u.user_name like CONCAT('%',#{query},'%') or m.`comment` like CONCAT('%',#{query},'%') or m.description like CONCAT('%',#{query},'%'));
+    </select>
+
+    <select id="queryMasterCount" resultType="int">
+        select count(*) from `master` m JOIN `user` u ON m.master_id=u.user_id where `status`=1
+        and (u.user_name like CONCAT('%',#{query},'%') or m.`comment` like CONCAT('%',#{query},'%') or m.description like CONCAT('%',#{query},'%'));
+    </select>
+    
+    <update id="updMasterStatus">
+        update `user` set `status` = 0 where user_id=#{masterId};
+    </update>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjde1033.bqgnmgt.dao.ClassDao">
+    
+    <select id="queryClassEntityCdts" resultType="ClassEntity">
+        select * from `classes` where
+        cname like CONCAT('%',#{query},'%')
+        <if test="type != 9">
+            and `type` = #{type}
+        </if>
+        <if test="status != 9">
+            and `status` = #{status}
+        </if>
+        order by startTime desc
+        limit #{index},#{size};
+    </select>
+
+    <select id="getUserNameByUid" resultType="java.lang.String">
+        select user_name from `user` where user_id=#{uid};
+    </select>
+
+    <select id="getTypeStrByTid" resultType="java.lang.String">
+        select `desc` from class_type where bid=#{tid};
+    </select>
+
+    <select id="queryClassCount" resultType="int">
+        select count(*) from `classes` where
+         cname like CONCAT('%',#{query},'%')
+    </select>
+    
+    <update id="updClass">
+        update `classes` set  teacher=#{teacher},master=#{master},`status`=#{status},endTime=#{endTime}   where cid=#{cid};
+    </update>
+
+    <select id="getAllClassType" resultType="ClassType">
+        select * from class_type;
+    </select>
+    
+    <insert id="addClass">
+        insert into `classes` (cname,`type`,teacher,master,startTime,endTime) values (#{cname},#{type},#{teacher},#{master},#{startTime},#{endTime});
+    </insert>
+
+</mapper>

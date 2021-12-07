@@ -1,0 +1,43 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bdqn_mgt?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    username: root
+    password: 123
+
+  #配置Redis
+  redis:
+    host: 47.93.214.168
+    #host: 110.40.176.18
+    password: 123456
+    database: 1
+    port: 6379
+
+  #解决前台使用${}赋值值为空的情况
+  freemarker:
+    settings:
+      classic_compatible: true
+
+#配置文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.kjde1033.bqgnmgt.model.*
+
+#qiniu:
+#  accessKey: K9utX1OludT_WhvjaQi1ND5u2_U9Zom_rscvyAWv
+#  secretKey: xuSH3aiR-sa0aOhbdDqvYySKkB9Ns5DghmqXRoZC
+#  bucket: kjde103
+#  path: qzv492duz.hb-bkt.clouddn.com
+qiniu:
+  accessKey: g5l9S4W7EV0Q8n9c5bs_FhEeS2nG3sTBJim7adjF
+  secretKey: lRXDjfHXXVEJ14YNdveMia0DyRHJInTFTfLp6AS_
+  bucket: kjde1033
+  path: qzv4k6wgs.hn-bkt.clouddn.com

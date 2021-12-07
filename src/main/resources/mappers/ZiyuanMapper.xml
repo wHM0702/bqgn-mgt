@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kjde1033.bqgnmgt.dao.ZiyuanDao">
+    
+    <insert id="addZiyuan">
+        insert into ziyuan (rname,rpath) values (#{rname},#{rpath});
+    </insert>
+    
+    <select id="getAllZiyuan" resultType="Ziyuan">
+        select * from ziyuan;
+    </select>
+</mapper>
